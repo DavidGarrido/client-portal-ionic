@@ -83,7 +83,7 @@
             <ion-label>Comercio #{{ t.tenantId }}: {{ t.pendingAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</ion-label>
           </ion-chip>
         </div>
-        <ion-button fill="clear" size="small" color="warning" (click)="goToCredit(credits[0]?.id)" class="cross-tenant-btn">
+        <ion-button fill="clear" size="small" color="warning" (click)="goToCredit(credits[0]!.id)" class="cross-tenant-btn">
           Ver detalle
           <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
