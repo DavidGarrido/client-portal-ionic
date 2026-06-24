@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CreditService } from '../../services/credit';
 import { AuthService } from '../../services/auth';
-import { CreditModel } from '../../models/credit';
+import { CreditModel, CrossTenantSummaryResponse, CrossTenantTenant } from '../../models/credit';
 
 @Component({
   standalone: false,
@@ -14,6 +14,11 @@ export class DashboardComponent implements OnInit {
   credits: CreditModel[] = [];
   isLoading = true;
   errorMessage = '';
+
+  /** Datos cross-tenant */
+  crossTenant!: CrossTenantSummaryResponse | null;
+  otherTenants: CrossTenantTenant[] = [];
+  isLoadingCrossTenant = false;
 
   constructor(
     public router: Router,
@@ -50,10 +55,29 @@ export class DashboardComponent implements OnInit {
               : 0,
         }));
         this.isLoading = false;
+        this.loadCrossTenantSummary();
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Error al cargar créditos';
         this.isLoading = false;
+      },
+    });
+  }
+
+  /** Carga deudas en otros tenants */
+  loadCrossTenantSummary() {
+    this.isLoadingCrossTenant = true;
+    this.creditService.getCrossTenantSummary().subscribe({
+      next: (res) => {
+        this.crossTenant = res;
+        // Mostrar solo tenants donde hay deuda pendiente
+        this.otherTenants = res.tenants.filter(
+          (t) => t.pendingInstallments > 0
+        );
+        this.isLoadingCrossTenant = false;
+      },
+      error: () => {
+        this.isLoadingCrossTenant = false;
       },
     });
   }

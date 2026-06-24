@@ -127,3 +127,23 @@ export interface AggregateSummary {
   nextDueAmount: number;
   updatedAt: string | null;
 }
+
+export interface CrossTenantSummaryResponse {
+  tenants: CrossTenantTenant[];
+  summary: AggregateSummary;
+}
+
+export interface CrossTenantTenant {
+  tenantId: number;
+  creditCount: number;
+  totalInstallments: number;
+  paidInstallments: number;
+  pendingInstallments: number;
+  overdueInstallments: number;
+  totalAmount: number;
+  paidAmount: number;
+  pendingAmount: number;
+  nextDueDate: string | null;
+  nextDueAmount: number;
+  lastSyncAt: string | null;
+}

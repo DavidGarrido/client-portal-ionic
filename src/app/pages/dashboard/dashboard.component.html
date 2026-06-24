@@ -64,6 +64,32 @@
       </ion-row>
     </ion-grid>
 
+    <!-- Cross-tenant alert (deudas en otros comercios) -->
+    <ion-card *ngIf="otherTenants.length > 0" class="cross-tenant-card">
+      <ion-card-content>
+        <div class="cross-tenant-header">
+          <ion-icon name="storefront-outline" color="warning" style="font-size: 1.5rem; margin-right: 10px;"></ion-icon>
+          <div>
+            <strong>Tienes deudas en {{ otherTenants.length }} otro(s) comercio(s)</strong>
+            <p class="cross-tenant-subtitle">
+              {{ crossTenant?.summary?.totalPending | currency:'COP':'symbol-narrow':'1.0-0' }} pendientes
+              · {{ crossTenant?.summary?.totalOverdue }} vencida(s)
+            </p>
+          </div>
+        </div>
+        <div class="cross-tenant-tenants">
+          <ion-chip *ngFor="let t of otherTenants" color="warning" outline="true">
+            <ion-icon name="business-outline"></ion-icon>
+            <ion-label>Comercio #{{ t.tenantId }}: {{ t.pendingAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</ion-label>
+          </ion-chip>
+        </div>
+        <ion-button fill="clear" size="small" color="warning" (click)="goToCredit(credits[0]?.id)" class="cross-tenant-btn">
+          Ver detalle
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
     <!-- Credits list -->
     <h2 class="section-title">Tus créditos</h2>
 

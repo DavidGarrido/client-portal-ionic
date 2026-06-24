@@ -7,7 +7,7 @@ import { AmortizationData } from '../models/credit';
 import { PaymentOptions } from '../models/payment';
 import { PaymentResult } from '../models/payment';
 import { TransactionModel } from '../models/transaction';
-import { CreditSummaryResponse } from '../models/credit';
+import { CreditSummaryResponse, CrossTenantSummaryResponse } from '../models/credit';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +39,10 @@ export class CreditService {
 
   getSummary(creditId: number): Observable<CreditSummaryResponse> {
     return this.api.get<CreditSummaryResponse>(`/credits/${creditId}/summary`);
+  }
+
+  getCrossTenantSummary(): Observable<CrossTenantSummaryResponse> {
+    return this.api.get<CrossTenantSummaryResponse>('/cross-tenant-summary');
   }
 
   getTransactions(): Observable<TransactionModel[]> {
