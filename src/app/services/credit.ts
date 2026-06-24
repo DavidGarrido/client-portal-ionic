@@ -7,6 +7,7 @@ import { AmortizationData } from '../models/credit';
 import { PaymentOptions } from '../models/payment';
 import { PaymentResult } from '../models/payment';
 import { TransactionModel } from '../models/transaction';
+import { CreditSummaryResponse } from '../models/credit';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +35,10 @@ export class CreditService {
     return this.api.get<AmortizationData>(
       `/credits/${creditId}/amortization`
     );
+  }
+
+  getSummary(creditId: number): Observable<CreditSummaryResponse> {
+    return this.api.get<CreditSummaryResponse>(`/credits/${creditId}/summary`);
   }
 
   getTransactions(): Observable<TransactionModel[]> {

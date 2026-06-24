@@ -84,3 +84,46 @@ export interface AmortizationRow {
   status: string;
   paid_date: string | null;
 }
+
+// ---------------------------------------------------------------------------
+// Multi-tenant snapshot summary
+// ---------------------------------------------------------------------------
+
+export interface CreditSummaryResponse {
+  credit: {
+    id: number;
+    totalLimit: number;
+    availableAmount: number;
+    status: string;
+  };
+  client: {
+    id: number;
+    name: string;
+    identification: string;
+  };
+  tenants: TenantSnapshot[];
+  summary: AggregateSummary;
+}
+
+export interface TenantSnapshot {
+  tenantId: number;
+  totalInstallments: number;
+  paidInstallments: number;
+  pendingInstallments: number;
+  overdueInstallments: number;
+  totalAmount: number;
+  paidAmount: number;
+  pendingAmount: number;
+  nextDueDate: string | null;
+  nextDueAmount: number;
+  lastSyncAt: string | null;
+}
+
+export interface AggregateSummary {
+  totalPending: number;
+  totalPaid: number;
+  totalOverdue: number;
+  nextDueDate: string | null;
+  nextDueAmount: number;
+  updatedAt: string | null;
+}

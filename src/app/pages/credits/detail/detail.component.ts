@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreditService } from '../../../services/credit';
-import { CreditModel, PaymentSummary } from '../../../models/credit';
+import { CreditModel, PaymentSummary, CreditSummaryResponse, TenantSnapshot } from '../../../models/credit';
 
 @Component({
   standalone: false,
@@ -12,9 +12,19 @@ import { CreditModel, PaymentSummary } from '../../../models/credit';
 export class DetailComponent implements OnInit {
   credit!: CreditModel;
   summary!: PaymentSummary | null;
+
+  /** Datos del summary multi-tenant (landlord) */
+  summaryResponse!: CreditSummaryResponse | null;
+  otherTenants: TenantSnapshot[] = [];
+  isLoadingSummary = false;
+  summaryError = '';
+
   isLoading = true;
   errorMessage = '';
   creditId = 0;
+
+  // Nombre del tenant actual (lo tomamos del host o de una variable)
+  currentTenantId = Number(localStorage.getItem('tenant_id') || '0');
 
   constructor(
     private route: ActivatedRoute,
@@ -35,10 +45,31 @@ export class DetailComponent implements OnInit {
         this.credit = data;
         this.summary = data.summary;
         this.isLoading = false;
+        this.loadSummary();
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Error al cargar crédito';
         this.isLoading = false;
+      },
+    });
+  }
+
+  /** Carga el resumen multi-tenant del landlord */
+  loadSummary() {
+    this.isLoadingSummary = true;
+    this.summaryError = '';
+    this.creditService.getSummary(this.creditId).subscribe({
+      next: (res) => {
+        this.summaryResponse = res;
+        // Filtrar tenants que NO son el actual para mostrar como "otros comercios"
+        this.otherTenants = res.tenants.filter(
+          (t) => t.tenantId !== this.currentTenantId && t.pendingInstallments > 0
+        );
+        this.isLoadingSummary = false;
+      },
+      error: () => {
+        this.isLoadingSummary = false;
+        // No es crítico — el detalle del crédito local ya se cargó
       },
     });
   }
