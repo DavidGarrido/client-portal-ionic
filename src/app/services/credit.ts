@@ -7,7 +7,7 @@ import { AmortizationData } from '../models/credit';
 import { PaymentOptions } from '../models/payment';
 import { PaymentResult } from '../models/payment';
 import { TransactionModel } from '../models/transaction';
-import { CreditSummaryResponse, CrossTenantSummaryResponse } from '../models/credit';
+import { CreditSummaryResponse, CrossTenantSummaryResponse, SimulateRequest, SimulateResponse, LimitIncreaseRequest, Store } from '../models/credit';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +43,37 @@ export class CreditService {
 
   getCrossTenantSummary(): Observable<CrossTenantSummaryResponse> {
     return this.api.get<CrossTenantSummaryResponse>('/cross-tenant-summary');
+  }
+
+  // ---- Simulador ----
+
+  simulateAmortization(data: SimulateRequest): Observable<SimulateResponse> {
+    return this.api.post<SimulateResponse>('/simulate-amortization', {
+      amount: data.amount,
+      number_of_installments: data.numberOfInstallments,
+      interest_rate: data.interestRate,
+      insurance_percentage: data.insurancePercentage,
+      frequency: data.frequency,
+    });
+  }
+
+  // ---- Aumento de cupo ----
+
+  requestLimitIncrease(creditId: number, requestedAmount: number, reason?: string): Observable<any> {
+    return this.api.post<any>(`/credits/${creditId}/request-limit-increase`, {
+      requested_amount: requestedAmount,
+      reason: reason || '',
+    });
+  }
+
+  getLimitIncreaseRequests(): Observable<LimitIncreaseRequest[]> {
+    return this.api.get<LimitIncreaseRequest[]>('/limit-increase-requests');
+  }
+
+  // ---- Dónde comprar ----
+
+  getStores(): Observable<Store[]> {
+    return this.api.get<Store[]>('/stores');
   }
 
   getTransactions(): Observable<TransactionModel[]> {

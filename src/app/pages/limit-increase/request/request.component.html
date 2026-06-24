@@ -1,0 +1,68 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Aumentar Cupo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="request-container">
+    <!-- Current limit info would need credit detail call, keep simple -->
+
+    <ion-card>
+      <ion-card-content>
+        <ion-item lines="none" class="amount-item">
+          <ion-label position="stacked">¿Cuánto deseas aumentar?</ion-label>
+          <ion-input
+            type="number"
+            [(ngModel)]="requestedAmount"
+            placeholder="500000"
+            class="amount-input"
+          ></ion-input>
+        </ion-item>
+
+        <div class="quick-amounts">
+          <ion-chip *ngFor="let a of quickAmounts"
+                    [color]="requestedAmount === a ? 'primary' : 'medium'"
+                    outline="true"
+                    (click)="requestedAmount = a">
+            ${{ (a / 1000) }}k
+          </ion-chip>
+        </div>
+
+        <ion-item lines="none" class="reason-item">
+          <ion-label position="stacked">Motivo (opcional)</ion-label>
+          <ion-textarea
+            [(ngModel)]="reason"
+            placeholder="Ej: Necesito un cupo mayor para mis compras mensuales"
+            rows="3"
+            maxlength="500"
+          ></ion-textarea>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Success -->
+    <div *ngIf="successMessage" class="success-state">
+      <ion-icon name="checkmark-circle-outline" color="success" size="large"></ion-icon>
+      <p>{{ successMessage }}</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-state">
+      <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+      <p>{{ error }}</p>
+    </div>
+
+    <ion-button expand="block" class="submit-btn" (click)="submit()" [disabled]="isLoading">
+      <ion-icon slot="start" name="send-outline"></ion-icon>
+      {{ isLoading ? 'Enviando...' : 'Enviar solicitud' }}
+    </ion-button>
+
+    <p class="info-text">
+      Tu solicitud será revisada por nuestro equipo. Te notificaremos cuando haya una respuesta.
+    </p>
+  </div>
+</ion-content>

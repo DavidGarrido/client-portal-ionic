@@ -64,6 +64,51 @@
       </ion-row>
     </ion-grid>
 
+    <!-- Action menu -->
+    <h2 class="section-title">¿Qué quieres hacer?</h2>
+    <ion-grid class="action-grid">
+      <ion-row>
+        <ion-col size="4" (click)="goToSimulator()" class="action-col">
+          <div class="action-btn">
+            <ion-icon name="calculator-outline" color="primary"></ion-icon>
+            <span>Simular crédito</span>
+          </div>
+        </ion-col>
+        <ion-col size="4" (click)="goToCredit(firstCreditId)" class="action-col">
+          <div class="action-btn">
+            <ion-icon name="eye-outline" color="success"></ion-icon>
+            <span>Ver créditos</span>
+          </div>
+        </ion-col>
+        <ion-col size="4" (click)="firstCreditId ? goToCredit(firstCreditId) : null" class="action-col">
+          <div class="action-btn">
+            <ion-icon name="card-outline" color="warning"></ion-icon>
+            <span>Pagar cuota</span>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4" (click)="goToRequestLimitIncrease()" class="action-col">
+          <div class="action-btn">
+            <ion-icon name="trending-up-outline" color="tertiary"></ion-icon>
+            <span>Aumentar cupo</span>
+          </div>
+        </ion-col>
+        <ion-col size="4" (click)="goToStores()" class="action-col">
+          <div class="action-btn">
+            <ion-icon name="storefront-outline" color="medium"></ion-icon>
+            <span>Dónde comprar</span>
+          </div>
+        </ion-col>
+        <ion-col size="4" (click)="goToLimitIncreaseRequests()" class="action-col">
+          <div class="action-btn">
+            <ion-icon name="document-text-outline" color="danger"></ion-icon>
+            <span>Mis solicitudes</span>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
     <!-- Cross-tenant alert (deudas en otros comercios) -->
     <ion-card *ngIf="otherTenants.length > 0" class="cross-tenant-card">
       <ion-card-content>

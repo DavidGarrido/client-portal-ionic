@@ -1,0 +1,65 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Solicitudes de Aumento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="list-container">
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading-state">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-state">
+      <ion-icon name="cloud-offline-outline" size="large" color="medium"></ion-icon>
+      <p>{{ error }}</p>
+      <ion-button fill="clear" (click)="loadRequests()">Reintentar</ion-button>
+    </div>
+
+    <!-- List -->
+    <ion-list *ngIf="!isLoading && !error">
+      <ion-card *ngFor="let req of requests" class="req-card">
+        <ion-card-content>
+          <div class="req-header">
+            <div>
+              <strong>{{ req.requestedAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</strong>
+              <ion-badge [color]="getStatusColor(req.status)" size="small">
+                {{ getStatusLabel(req.status) }}
+              </ion-badge>
+            </div>
+            <span class="req-date">{{ req.createdAt | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="req-details">
+            <span class="detail-row">
+              <span class="lbl">Cupo actual:</span>
+              <span>{{ req.currentLimit | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+            </span>
+            <span class="detail-row">
+              <span class="lbl">Nuevo cupo:</span>
+              <span>{{ req.newLimit | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+            </span>
+            <span class="detail-row" *ngIf="req.reason">
+              <span class="lbl">Motivo:</span>
+              <span>{{ req.reason }}</span>
+            </span>
+            <span class="detail-row" *ngIf="req.reviewNotes">
+              <span class="lbl">Respuesta:</span>
+              <span>{{ req.reviewNotes }}</span>
+            </span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Empty -->
+      <div *ngIf="requests.length === 0" class="empty-state">
+        <ion-icon name="trending-up-outline" size="large" color="light"></ion-icon>
+        <h3>No has solicitado aumentos de cupo</h3>
+      </div>
+    </ion-list>
+  </div>
+</ion-content>

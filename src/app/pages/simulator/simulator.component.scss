@@ -1,0 +1,95 @@
+.sim-container {
+  padding: 16px;
+}
+
+.amount-input {
+  font-size: 1.8rem;
+  font-weight: 700;
+  --padding-start: 0;
+  margin-top: 8px;
+}
+
+.quick-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+  padding: 0 16px;
+}
+
+.installments-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 16px;
+  padding: 0 16px;
+}
+
+.sim-btn {
+  margin-top: 8px;
+}
+
+.sim-summary-grid {
+  ion-col { padding: 4px; }
+}
+
+.summary-card {
+  ion-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 12px;
+    .label { font-size: 0.8rem; color: var(--ion-color-medium); }
+    .value { font-size: 1.2rem; font-weight: 700; margin-top: 4px; }
+    .primary { color: var(--ion-color-primary); }
+  }
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  padding: 0;
+}
+
+.sim-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+
+  th, td {
+    padding: 8px 6px;
+    text-align: right;
+    border-bottom: 1px solid var(--ion-color-light-shade);
+    &:first-child { text-align: center; }
+    &:nth-child(2) { text-align: center; }
+  }
+  th {
+    background: var(--ion-color-light);
+    font-weight: 600;
+    color: var(--ion-color-medium);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+  .total { font-weight: 600; color: var(--ion-color-primary); }
+}
+
+.config-card {
+  ion-card-content {
+    padding: 8px 16px;
+  }
+}
+
+.config-text {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+}
+
+.loading-state, .error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  gap: 8px;
+}

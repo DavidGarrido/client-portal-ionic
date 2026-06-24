@@ -35,32 +35,35 @@
 
       <!-- Transaction list -->
       <ion-list lines="none" class="txn-list">
-        <ion-item
-          *ngFor="let txn of group.transactions; let i = index; let last = last"
-          class="txn-item"
-          [class.txn-last]="last"
-        >
-          <div slot="start" class="txn-icon-wrap" [class.is-payment]="txn.type === 'payment'">
-            <ion-icon [name]="getTypeIcon(txn.type)"></ion-icon>
-          </div>
-          <ion-label>
-            <div class="txn-top">
-              <span class="txn-type">{{ txn.description || txn.type }}</span>
-              <ion-badge [color]="getStatusColor(txn.status)" size="small">
-                {{ getStatusLabel(txn.status) }}
-              </ion-badge>
+          <ion-item
+            *ngFor="let txn of group.transactions; let i = index; let last = last"
+            class="txn-item"
+            [class.txn-last]="last"
+          >
+            <div slot="start" class="txn-icon-wrap" [class.is-payment]="txn.type === 'payment'">
+              <ion-icon [name]="getTypeIcon(txn.type)"></ion-icon>
             </div>
-            <div class="txn-bottom">
-              <span class="txn-date">{{ txn.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
-              <span class="txn-amount" [class.is-payment]="txn.type === 'payment'">
-                {{ formatAmount(txn.amount) }}
-              </span>
-            </div>
-            <div class="txn-meta" *ngIf="txn.reference">
-              <span class="txn-ref">Ref: {{ txn.reference }}</span>
-            </div>
-          </ion-label>
-        </ion-item>
+            <ion-label>
+              <div class="txn-top">
+                <span class="txn-type">{{ txn.description || txn.type }}</span>
+                <ion-badge [color]="getStatusColor(txn.status)" size="small">
+                  {{ getStatusLabel(txn.status) }}
+                </ion-badge>
+              </div>
+              <div class="txn-bottom">
+                <span class="txn-date">{{ txn.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                <span class="txn-amount" [class.is-payment]="txn.type === 'payment'">
+                  {{ formatAmount(txn.amount) }}
+                </span>
+              </div>
+              <div class="txn-meta" *ngIf="txn.reference">
+                <span class="txn-ref">Ref: {{ txn.reference }}</span>
+              </div>
+            </ion-label>
+            <ion-button slot="end" fill="clear" size="small" (click)="downloadReceipt(txn)" [title]="'Descargar recibo'">
+              <ion-icon slot="icon-only" name="download-outline" color="primary"></ion-icon>
+            </ion-button>
+          </ion-item>
       </ion-list>
     </div>
 

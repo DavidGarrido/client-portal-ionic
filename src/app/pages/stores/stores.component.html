@@ -1,0 +1,60 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Dónde Comprar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="stores-container">
+    <!-- Search -->
+    <ion-searchbar
+      [value]="searchQuery"
+      (ionInput)="onSearch($event)"
+      placeholder="Buscar comercio..."
+      animated
+    ></ion-searchbar>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading-state">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-state">
+      <ion-icon name="cloud-offline-outline" size="large" color="medium"></ion-icon>
+      <p>{{ error }}</p>
+      <ion-button fill="clear" (click)="loadStores()">Reintentar</ion-button>
+    </div>
+
+    <!-- Stores list -->
+    <ion-list *ngIf="!isLoading && !error">
+      <ion-card *ngFor="let store of filtered" class="store-card">
+        <ion-card-content>
+          <div class="store-header">
+            <ion-icon name="storefront-outline" color="primary" class="store-icon"></ion-icon>
+            <div class="store-info">
+              <h3>{{ store.name }}</h3>
+              <p *ngIf="store.address" class="store-address">
+                <ion-icon name="location-outline" size="small"></ion-icon>
+                {{ store.address }}
+              </p>
+              <p *ngIf="store.phone" class="store-phone">
+                <ion-icon name="call-outline" size="small"></ion-icon>
+                {{ store.phone }}
+              </p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Empty -->
+      <div *ngIf="filtered.length === 0 && !isLoading" class="empty-state">
+        <ion-icon name="storefront-outline" size="large" color="light"></ion-icon>
+        <h3>No se encontraron comercios</h3>
+      </div>
+    </ion-list>
+  </div>
+</ion-content>

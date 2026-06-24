@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CreditService } from '../../services/credit';
 import { TransactionModel } from '../../models/transaction';
+import { environment } from '../../../environments/environment';
 
 interface TransactionGroup {
   commerceName: string;
@@ -92,5 +93,11 @@ export class TransactionsComponent implements OnInit {
 
   trackByGroup(index: number, g: TransactionGroup): string {
     return g.commerceName;
+  }
+
+  downloadReceipt(txn: TransactionModel) {
+    const token = localStorage.getItem('auth_token') || '';
+    const url = `${environment.tenantApiUrl}/transactions/${txn.id}/receipt?token=${encodeURIComponent(token)}`;
+    window.open(url, '_system');
   }
 }

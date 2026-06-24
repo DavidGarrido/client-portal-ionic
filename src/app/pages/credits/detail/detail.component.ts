@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreditService } from '../../../services/credit';
 import { CreditModel, PaymentSummary, CreditSummaryResponse, TenantSnapshot } from '../../../models/credit';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   standalone: false,
@@ -103,5 +104,11 @@ export class DetailComponent implements OnInit {
 
   goToPay() {
     this.router.navigate(['/tabs/dashboard/credits', this.creditId, 'pay']);
+  }
+
+  downloadPazYSalvo() {
+    const token = localStorage.getItem('auth_token') || '';
+    const url = `${environment.tenantApiUrl}/credits/${this.creditId}/paz-y-salvo?token=${encodeURIComponent(token)}`;
+    window.open(url, '_system');
   }
 }

@@ -1,0 +1,134 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Simular Crédito</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="sim-container">
+    <!-- Input section -->
+    <ion-card>
+      <ion-card-content>
+        <ion-item lines="none" class="amount-item">
+          <ion-label position="stacked">¿Cuánto quieres?</ion-label>
+          <ion-input
+            type="number"
+            [value]="amount"
+            (ionChange)="onAmountChange($event)"
+            placeholder="500000"
+            class="amount-input"
+          ></ion-input>
+        </ion-item>
+
+        <div class="quick-amounts">
+          <ion-chip *ngFor="let a of [100000, 300000, 500000, 1000000]" 
+                    [color]="amount === a ? 'primary' : 'medium'"
+                    outline="true"
+                    (click)="amount = a; result = null">
+            ${{ (a / 1000) }}k
+          </ion-chip>
+        </div>
+
+        <ion-item lines="none" class="installments-item">
+          <ion-label position="stacked">¿A cuántas cuotas?</ion-label>
+        </ion-item>
+        <div class="installments-grid">
+          <ion-button *ngFor="let n of installmentsOptions"
+                      [color]="selectedInstallments === n ? 'primary' : 'medium'"
+                      fill="outline"
+                      size="small"
+                      (click)="selectInstallments(n)">
+            {{ n }}
+          </ion-button>
+        </div>
+
+        <ion-button expand="block" class="sim-btn" (click)="simulate()" [disabled]="isLoading">
+          <ion-icon slot="start" name="calculator-outline"></ion-icon>
+          {{ isLoading ? 'Calculando...' : 'Simular' }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-state">
+      <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+      <p>{{ error }}</p>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading-state">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    </div>
+
+    <!-- Results -->
+    <div *ngIf="result">
+      <!-- Summary cards -->
+      <ion-grid class="sim-summary-grid">
+        <ion-row>
+          <ion-col size="6">
+            <ion-card class="summary-card">
+              <ion-card-content>
+                <span class="label">Cuota mensual</span>
+                <span class="value primary">{{ result.summary.monthlyPayment | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+          <ion-col size="6">
+            <ion-card class="summary-card">
+              <ion-card-content>
+                <span class="label">Total a pagar</span>
+                <span class="value">{{ result.summary.grandTotal | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Detalle de cuotas</ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="table-wrapper">
+          <table class="sim-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Vence</th>
+                <th>Capital</th>
+                <th>Interés</th>
+                <th>Seguro</th>
+                <th>Total</th>
+                <th>Saldo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let inst of result.installments">
+                <td>{{ inst.installmentNumber }}</td>
+                <td>{{ inst.dueDate | date:'dd/MM' }}</td>
+                <td>{{ inst.principalAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+                <td>{{ inst.interestAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+                <td>{{ inst.insuranceAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+                <td class="total">{{ inst.totalAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+                <td>{{ inst.finalBalance | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Config info -->
+      <ion-card class="config-card">
+        <ion-card-content>
+          <p class="config-text">
+            Tasa interés: {{ result.config.interestRate }}% · 
+            Seguro: {{ result.config.insurancePercentage }}% · 
+            Frecuencia: {{ result.config.frequency }}
+          </p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

@@ -147,3 +147,79 @@ export interface CrossTenantTenant {
   nextDueAmount: number;
   lastSyncAt: string | null;
 }
+
+// ---------------------------------------------------------------------------
+// Simulador de amortización
+// ---------------------------------------------------------------------------
+
+export interface SimulateRequest {
+  amount: number;
+  numberOfInstallments: number;
+  interestRate?: number;
+  insurancePercentage?: number;
+  frequency?: string;
+}
+
+export interface SimulateResponse {
+  installments: SimInstallment[];
+  summary: SimSummary;
+  config: SimConfig;
+}
+
+export interface SimInstallment {
+  installmentNumber: number;
+  dueDate: string;
+  principalAmount: number;
+  interestAmount: number;
+  insuranceAmount: number;
+  totalAmount: number;
+  initialBalance: number;
+  finalBalance: number;
+}
+
+export interface SimSummary {
+  purchaseAmount: number;
+  numberOfInstallments: number;
+  totalPrincipal: number;
+  totalInterest: number;
+  totalInsurance: number;
+  grandTotal: number;
+  monthlyPayment: number;
+}
+
+export interface SimConfig {
+  interestRate: number;
+  insurancePercentage: number;
+  frequency: string;
+  effectiveRate: number;
+}
+
+// ---------------------------------------------------------------------------
+// Aumento de cupo
+// ---------------------------------------------------------------------------
+
+export interface LimitIncreaseRequest {
+  id: number;
+  creditId: number;
+  creditCode: string;
+  currentLimit: number;
+  requestedAmount: number;
+  newLimit: number;
+  reason: string | null;
+  status: 'pending' | 'approved' | 'rejected';
+  reviewNotes: string | null;
+  createdAt: string;
+  reviewedAt: string | null;
+}
+
+// ---------------------------------------------------------------------------
+// Tiendas / Comercios
+// ---------------------------------------------------------------------------
+
+export interface Store {
+  id: string;
+  name: string;
+  domain: string | null;
+  address: string | null;
+  phone: string | null;
+}

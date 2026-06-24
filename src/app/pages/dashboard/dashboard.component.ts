@@ -38,6 +38,28 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/tabs/profile']);
   }
 
+  goToSimulator() {
+    this.router.navigate(['/tabs/dashboard/simulator']);
+  }
+
+  goToStores() {
+    this.router.navigate(['/tabs/dashboard/stores']);
+  }
+
+  goToRequestLimitIncrease() {
+    if (this.credits.length > 0) {
+      this.router.navigate(['/tabs/dashboard/request-limit-increase', this.credits[0].id]);
+    }
+  }
+
+  goToLimitIncreaseRequests() {
+    this.router.navigate(['/tabs/dashboard/limit-increase-requests']);
+  }
+
+  get firstCreditId(): number {
+    return this.credits.length > 0 ? this.credits[0].id : 0;
+  }
+
   loadCredits() {
     this.isLoading = true;
     this.errorMessage = '';

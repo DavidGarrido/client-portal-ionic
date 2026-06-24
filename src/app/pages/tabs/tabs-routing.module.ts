@@ -41,6 +41,34 @@ const routes: Routes = [
                 (m) => m.PayModule
               ),
           },
+          {
+            path: 'simulator',
+            loadChildren: () =>
+              import('../simulator/simulator-module').then(
+                (m) => m.SimulatorModule
+              ),
+          },
+          {
+            path: 'stores',
+            loadChildren: () =>
+              import('../stores/stores-module').then(
+                (m) => m.StoresModule
+              ),
+          },
+          {
+            path: 'request-limit-increase/:id',
+            loadChildren: () =>
+              import('../limit-increase/request/request-module').then(
+                (m) => m.RequestLimitIncreaseModule
+              ),
+          },
+          {
+            path: 'limit-increase-requests',
+            loadChildren: () =>
+              import('../limit-increase/list/list-module').then(
+                (m) => m.LimitIncreaseListModule
+              ),
+          },
         ],
       },
       {
