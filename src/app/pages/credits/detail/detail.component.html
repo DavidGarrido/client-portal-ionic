@@ -1,0 +1,108 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle del Crédito</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage" class="error-state">
+    <ion-icon name="cloud-offline-outline" size="large" color="medium"></ion-icon>
+    <p>{{ errorMessage }}</p>
+    <ion-button fill="clear" (click)="loadCredit()">Reintentar</ion-button>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!isLoading && !errorMessage" class="detail-container">
+    <!-- Credit Info Card -->
+    <ion-card>
+      <ion-card-content>
+        <div class="credit-header">
+          <h2>{{ credit.code }}</h2>
+          <ion-badge [color]="getStatusColor(credit.status)">{{ credit.status }}</ion-badge>
+        </div>
+
+        <ion-list lines="none" class="info-list">
+          <ion-item><ion-label><span class="lbl">Valor del crédito</span><span class="val">{{ credit.amount | currency:'COP':'symbol-narrow':'1.0-0' }}</span></ion-label></ion-item>
+          <ion-item><ion-label><span class="lbl">Monto financiado</span><span class="val">{{ credit.financedAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</span></ion-label></ion-item>
+          <ion-item><ion-label><span class="lbl">Cuota mensual</span><span class="val">{{ credit.installmentAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</span></ion-label></ion-item>
+          <ion-item><ion-label><span class="lbl">Plazo</span><span class="val">{{ credit.term }} meses</span></ion-label></ion-item>
+          <ion-item><ion-label><span class="lbl">Tasa interés</span><span class="val">{{ credit.interestRate }}%</span></ion-label></ion-item>
+          <ion-item *ngIf="credit.startDate"><ion-label><span class="lbl">Inicio</span><span class="val">{{ credit.startDate | date:'dd/MM/yyyy' }}</span></ion-label></ion-item>
+          <ion-item *ngIf="credit.endDate"><ion-label><span class="lbl">Final</span><span class="val">{{ credit.endDate | date:'dd/MM/yyyy' }}</span></ion-label></ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Payment Summary -->
+    <ion-card *ngIf="summary">
+      <ion-card-header>
+        <ion-card-title>Resumen de pagos</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="progress-block">
+          <div class="progress-label">
+            <span>Progreso</span>
+            <span>{{ progressPercent | number:'1.0-0' }}%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="progressPercent" [style.background]="progressColor"></div>
+          </div>
+        </div>
+
+        <ion-list lines="none" class="info-list">
+          <ion-item><ion-label><span class="lbl">Cuotas pagadas</span><span class="val">{{ summary.paidInstallments }} de {{ summary.totalInstallments }}</span></ion-label></ion-item>
+          <ion-item><ion-label><span class="lbl">Total pagado</span><span class="val success">{{ summary.totalPaid | currency:'COP':'symbol-narrow':'1.0-0' }}</span></ion-label></ion-item>
+          <ion-item><ion-label><span class="lbl">Total pendiente</span><span class="val warning">{{ summary.totalPending | currency:'COP':'symbol-narrow':'1.0-0' }}</span></ion-label></ion-item>
+          <ion-item><ion-label><span class="lbl">Puntualidad</span><span class="val">{{ summary.onTimePaymentRate }}</span></ion-label></ion-item>
+          <ion-item *ngIf="summary.overdueInstallments > 0">
+            <ion-label><span class="lbl">Cuotas vencidas</span><span class="val danger">{{ summary.overdueInstallments }}</span></ion-label></ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Limit Card -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Límite disponible</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="limit-row">
+          <span>Disponible</span>
+          <span class="primary">{{ credit.availableAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+        </div>
+        <div class="limit-row">
+          <span>Límite total</span>
+          <span>{{ credit.totalLimit | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+        </div>
+        <div class="progress-bar mt-2">
+          <div class="progress-fill" [style.width.%]="credit.usagePercent" [style.background]="credit.usagePercent > 80 ? '#F59E0B' : '#1A56DB'"></div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Actions -->
+    <div class="actions">
+      <ion-button expand="block" (click)="goToPay()" class="pay-btn">
+        <ion-icon slot="start" name="card-outline"></ion-icon>
+        Realizar Pago
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="goToPeriods()" class="mt-2">
+        <ion-icon slot="start" name="calendar-outline"></ion-icon>
+        Ver Periodos
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="goToAmortization()" class="mt-2">
+        <ion-icon slot="start" name="grid-outline"></ion-icon>
+        Ver Amortización
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,150 @@
+// CrediFácil Design System — Light theme
+// Based on the original frontend (Tailwind + Matoxi)
+
+:root {
+  /* =============================================
+     CrediFácil custom properties
+     ============================================= */
+  --c-bg-deep:    #f8fafc;
+  --c-bg:         #ffffff;
+  --c-surface:    #f1f5f9;
+  --c-hover:      #e2e8f0;
+  --c-accent:     #4bbb8d;
+  --c-accent-h:   #3da87c;
+  --c-accent-rgb: 75, 187, 141;
+  --c-danger:     #fc185a;
+  --c-warning:    #ffc107;
+  --c-info:       #0dcaf0;
+  --c-violet:     #5a4eba;
+  --c-orange:     #fd7e14;
+  --c-text:       #0f172a;
+  --c-text-sec:   #475569;
+  --c-text-mut:   #94a3b8;
+  --c-text-lbl:   #64748b;
+  --c-border:     rgba(0, 0, 0, 0.10);
+  --c-border-s:   rgba(0, 0, 0, 0.18);
+  --c-shadow:     0 4px 16px rgba(0, 0, 0, 0.08);
+
+  /* =============================================
+     Ionic CSS Custom Properties
+     ============================================= */
+
+  /* ---- Color palette (matches CrediFácil) ---- */
+  --ion-color-primary:        #4bbb8d;
+  --ion-color-primary-rgb:    75, 187, 141;
+  --ion-color-primary-contrast:       #ffffff;
+  --ion-color-primary-contrast-rgb:   255, 255, 255;
+  --ion-color-primary-shade:   #3da87c;
+  --ion-color-primary-tint:    #7dd0aa;
+
+  --ion-color-secondary:        #475569;
+  --ion-color-secondary-rgb:    71, 85, 105;
+  --ion-color-secondary-contrast:       #ffffff;
+  --ion-color-secondary-contrast-rgb:   255, 255, 255;
+  --ion-color-secondary-shade:   #3b4a5e;
+  --ion-color-secondary-tint:    #596780;
+
+  --ion-color-tertiary:        #0dcaf0;
+  --ion-color-tertiary-rgb:    13, 202, 240;
+  --ion-color-tertiary-contrast:       #ffffff;
+  --ion-color-tertiary-contrast-rgb:   255, 255, 255;
+  --ion-color-tertiary-shade:   #0bb5d8;
+  --ion-color-tertiary-tint:    #25d4f9;
+
+  --ion-color-success:        #4bbb8d;
+  --ion-color-success-rgb:    75, 187, 141;
+  --ion-color-success-contrast:       #ffffff;
+  --ion-color-success-contrast-rgb:   255, 255, 255;
+  --ion-color-success-shade:   #3da87c;
+  --ion-color-success-tint:    #5dcf9d;
+
+  --ion-color-warning:        #ffc107;
+  --ion-color-warning-rgb:    255, 193, 7;
+  --ion-color-warning-contrast:       #0f172a;
+  --ion-color-warning-contrast-rgb:   15, 23, 42;
+  --ion-color-warning-shade:   #e6ad06;
+  --ion-color-warning-tint:    #ffc728;
+
+  --ion-color-danger:        #fc185a;
+  --ion-color-danger-rgb:    252, 24, 90;
+  --ion-color-danger-contrast:       #ffffff;
+  --ion-color-danger-contrast-rgb:   255, 255, 255;
+  --ion-color-danger-shade:   #e0154f;
+  --ion-color-danger-tint:    #fc3170;
+
+  --ion-color-medium:        #94a3b8;
+  --ion-color-medium-rgb:    148, 163, 184;
+  --ion-color-medium-contrast:       #ffffff;
+  --ion-color-medium-contrast-rgb:   255, 255, 255;
+  --ion-color-medium-shade:   #8296ab;
+  --ion-color-medium-tint:    #a0b0c3;
+
+  --ion-color-light:        #f1f5f9;
+  --ion-color-light-rgb:    241, 245, 249;
+  --ion-color-light-contrast:       #0f172a;
+  --ion-color-light-contrast-rgb:   15, 23, 42;
+  --ion-color-light-shade:   #d4dce6;
+  --ion-color-light-tint:    #f4f7fa;
+
+  --ion-color-dark:        #0f172a;
+  --ion-color-dark-rgb:    15, 23, 42;
+  --ion-color-dark-contrast:       #ffffff;
+  --ion-color-dark-contrast-rgb:   255, 255, 255;
+  --ion-color-dark-shade:   #0a1020;
+  --ion-color-dark-tint:    #232b3d;
+
+  /* ---- Background & Text ---- */
+  --ion-background-color:        #f8fafc;
+  --ion-background-color-rgb:    248, 250, 252;
+  --ion-text-color:              #0f172a;
+  --ion-text-color-rgb:          15, 23, 42;
+
+  /* ---- Toolbar / Header ---- */
+  --ion-toolbar-background:        #ffffff;
+  --ion-toolbar-color:             #0f172a;
+  --ion-toolbar-border-color:      rgba(0, 0, 0, 0.08);
+  --ion-toolbar-color-activated:   #4bbb8d;
+
+  /* ---- Card ---- */
+  --ion-card-background:      #ffffff;
+  --ion-card-color:           #0f172a;
+  --ion-card-border-color:    rgba(0, 0, 0, 0.08);
+
+  /* ---- Tab Bar ---- */
+  --ion-tab-bar-background:           #ffffff;
+  --ion-tab-bar-color:                #94a3b8;
+  --ion-tab-bar-color-selected:       #4bbb8d;
+  --ion-tab-bar-border-color:         rgba(0, 0, 0, 0.08);
+
+  /* ---- Item ---- */
+  --ion-item-background:            #ffffff;
+  --ion-item-color:                 #0f172a;
+  --ion-item-border-color:          rgba(0, 0, 0, 0.06);
+
+  /* ---- Input / Label ---- */
+  --ion-input-background:           #f1f5f9;
+  --ion-input-color:                #0f172a;
+  --ion-input-border-color:         rgba(0, 0, 0, 0.12);
+  --ion-input-placeholder-color:    #94a3b8;
+  --ion-label-color:                #64748b;
+
+  /* ---- Badge ---- */
+  --ion-badge-background:     rgba(75, 187, 141, 0.12);
+  --ion-badge-color:          #3da87c;
+  --ion-badge-font-weight:    500;
+
+  /* ---- Button ---- */
+  --ion-button-background:          #4bbb8d;
+  --ion-button-color:               #ffffff;
+  --ion-button-border-radius:       0.75rem;
+  --ion-button-font-weight:         600;
+
+  /* ---- Spinner ---- */
+  --ion-spinner-color: #4bbb8d;
+
+  /* ---- Border radius ---- */
+  --ion-border-radius: 0.75rem;
+
+  /* ---- Font ---- */
+  --ion-font-family: 'Noto Sans', 'Figtree', system-ui, sans-serif;
+}

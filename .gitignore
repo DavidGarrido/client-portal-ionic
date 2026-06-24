@@ -1,0 +1,39 @@
+# CrediFácil Ionic — .gitignore
+
+## Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+## Ionic / Angular
+www/
+*.js.map
+*.css.map
+.angular/cache/
+
+## IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Environment (keep dev tracked, ignore prod)
+src/environments/environment.prod.ts
+
+## Capacitor
+ios/
+android/
+*.apk
+*.aab
+*.ipa
+
+## Logs
+*.log
+
+## Coverage
+coverage/

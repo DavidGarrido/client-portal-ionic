@@ -1,0 +1,60 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>CrediFácil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="login-container">
+    <div class="login-header">
+      <h1>Bienvenido</h1>
+      <p>Ingresa tus datos para acceder a tus créditos</p>
+    </div>
+
+    <ion-card>
+      <ion-card-content>
+        <ion-item lines="none" class="ion-item-custom">
+          <ion-label position="stacked">Número de documento</ion-label>
+          <ion-input
+            type="tel"
+            inputmode="numeric"
+            placeholder="Ej: 1022978178"
+            [(ngModel)]="identification"
+            maxlength="15"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="ion-item-custom">
+          <ion-label position="stacked">Número de teléfono</ion-label>
+          <ion-input
+            type="tel"
+            inputmode="numeric"
+            placeholder="Ej: 3205731318"
+            [(ngModel)]="phone"
+            maxlength="10"
+          ></ion-input>
+        </ion-item>
+
+        <div *ngIf="errorMessage" class="error-message">
+          <ion-icon name="alert-circle" size="small"></ion-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+
+        <ion-button
+          expand="block"
+          class="login-button"
+          (click)="login()"
+          [disabled]="isLoading"
+        >
+          <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
+          {{ isLoading ? 'Enviando...' : 'Ingresar' }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="telegram-info">
+      <ion-icon name="paper-plane" color="primary"></ion-icon>
+      <p>Te enviaremos un código de verificación por Telegram</p>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,120 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>CrediFácil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToProfile()">
+        <ion-icon slot="icon-only" name="person-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Error state -->
+  <div *ngIf="errorMessage" class="error-state">
+    <ion-icon name="cloud-offline-outline" size="large" color="medium"></ion-icon>
+    <p>{{ errorMessage }}</p>
+    <ion-button fill="clear" (click)="loadCredits()">Reintentar</ion-button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando tus créditos...</p>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!isLoading && !errorMessage" class="dashboard-container">
+    <!-- Greeting -->
+    <div class="greeting">
+      <h1>Hola, {{ clientName }}</h1>
+      <p>Este es el resumen de tus créditos</p>
+    </div>
+
+    <!-- Summary cards -->
+    <ion-grid class="summary-grid">
+      <ion-row>
+        <ion-col size="12" size-md="4">
+          <ion-card class="summary-card">
+            <ion-card-content>
+              <ion-icon name="wallet-outline" color="primary"></ion-icon>
+              <span class="summary-label">Disponible</span>
+              <span class="summary-value primary">$ {{ totalAvailable | number:'1.0-0' }}</span>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="12" size-md="4">
+          <ion-card class="summary-card">
+            <ion-card-content>
+              <ion-icon name="receipt-outline" color="warning"></ion-icon>
+              <span class="summary-label">Pendiente</span>
+              <span class="summary-value warning">{{ totalPending | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="12" size-md="4">
+          <ion-card class="summary-card">
+            <ion-card-content>
+              <ion-icon name="card-outline" color="success"></ion-icon>
+              <span class="summary-label">Créditos activos</span>
+              <span class="summary-value success">{{ credits.length }}</span>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Credits list -->
+    <h2 class="section-title">Tus créditos</h2>
+
+    <ion-card *ngFor="let credit of credits" class="credit-card" (click)="goToCredit(credit.id)">
+      <ion-card-content>
+        <div class="credit-header">
+          <span class="credit-code">{{ credit.code }}</span>
+          <ion-badge [color]="getStatusColor(credit.status)">{{ credit.status }}</ion-badge>
+        </div>
+
+        <div class="credit-amounts">
+          <div class="amount-row">
+            <span class="label">Disponible</span>
+            <span class="value primary">{{ credit.availableAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+          </div>
+          <div class="amount-row">
+            <span class="label">Límite</span>
+            <span class="value">{{ credit.totalLimit | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+          </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="progress-section">
+          <div class="progress-label">
+            <span>{{ credit.usagePercent }}% usado</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="credit.usagePercent" [style.background]="credit.usagePercent > 80 ? '#F59E0B' : '#1A56DB'"></div>
+          </div>
+        </div>
+
+        <!-- Next payment -->
+        <div *ngIf="credit.nextPaymentDate" class="next-payment">
+          <ion-icon name="calendar-outline" size="small"></ion-icon>
+          <span>Próximo pago: {{ credit.nextPaymentDate | date:'dd/MM/yyyy' }}</span>
+          <span *ngIf="credit.nextPaymentAmount" class="payment-amount">
+            {{ credit.nextPaymentAmount | currency:'COP':'symbol-narrow':'1.0-0' }}
+          </span>
+        </div>
+
+        <div *ngIf="credit.pendingInstallments" class="pending-info">
+          <ion-icon name="receipt-outline" size="small"></ion-icon>
+          <span>{{ credit.pendingInstallments }} cuotas pendientes</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Empty state -->
+    <div *ngIf="credits.length === 0" class="empty-state">
+      <ion-icon name="card-outline" size="large" color="light"></ion-icon>
+      <h3>No tienes créditos activos</h3>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,105 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard/credits/{{ creditId }}"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Amortización</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage" class="error-state">
+    <ion-icon name="cloud-offline-outline" size="large" color="medium"></ion-icon>
+    <p>{{ errorMessage }}</p>
+    <ion-button fill="clear" (click)="loadAmortization()">Reintentar</ion-button>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!isLoading && !errorMessage && data">
+    <!-- Totals card -->
+    <ion-card>
+      <ion-card-content>
+        <div class="totals-row">
+          <div class="total-item">
+            <span class="total-label">Capital total</span>
+            <span class="total-value">{{ data.summary.total_principal | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+          </div>
+          <div class="total-item">
+            <span class="total-label">Intereses totales</span>
+            <span class="total-value">{{ data.summary.total_interest | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+          </div>
+        </div>
+        <div class="totals-row">
+          <div class="total-item">
+            <span class="total-label">Seguro total</span>
+            <span class="total-value">{{ data.summary.total_insurance | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+          </div>
+          <div class="total-item">
+            <span class="total-label">Total a pagar</span>
+            <span class="total-value primary">{{ data.summary.total_payable | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Filter chips -->
+    <div class="filter-row">
+      <ion-chip [color]="filterStatus === 'all' ? 'primary' : 'medium'" (click)="filterStatus = 'all'">
+        Todos
+      </ion-chip>
+      <ion-chip [color]="filterStatus === 'pending' ? 'warning' : 'medium'" (click)="filterStatus = 'pending'">
+        Pendientes
+      </ion-chip>
+      <ion-chip [color]="filterStatus === 'paid' ? 'success' : 'medium'" (click)="filterStatus = 'paid'">
+        Pagados
+      </ion-chip>
+      <ion-chip [color]="filterStatus === 'overdue' ? 'danger' : 'medium'" (click)="filterStatus = 'overdue'">
+        Vencidos
+      </ion-chip>
+    </div>
+
+    <!-- Installments table -->
+    <div class="table-wrapper">
+      <table class="amort-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Vence</th>
+            <th>Capital</th>
+            <th>Interés</th>
+            <th>Seguro</th>
+            <th>Total</th>
+            <th>Saldo</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let inst of filteredInstallments; trackBy: trackByInstallment">
+            <td>{{ inst.number }}</td>
+            <td>{{ inst.due_date | date:'dd/MM/yyyy' }}</td>
+            <td>{{ inst.principal | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+            <td>{{ inst.interest | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+            <td>{{ inst.insurance | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+            <td>{{ inst.total | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+            <td>{{ inst.balance | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+            <td>
+              <ion-badge [color]="getStatusColor(inst.status)" size="small">
+                {{ getStatusLabel(inst.status) }}
+              </ion-badge>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="filteredInstallments.length === 0" class="empty-state">
+      <p>Sin resultados para este filtro</p>
+    </div>
+  </div>
+</ion-content>

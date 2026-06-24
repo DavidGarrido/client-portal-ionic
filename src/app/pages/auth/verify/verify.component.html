@@ -1,0 +1,70 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/auth/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Verificar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="verify-container">
+    <div class="verify-header">
+      <ion-icon name="shield-checkmark-outline" class="verify-icon"></ion-icon>
+      <h1>Código de verificación</h1>
+      <p>Ingresa el código de 6 dígitos que enviamos a tu Telegram</p>
+    </div>
+
+    <ion-card>
+      <ion-card-content>
+        <!-- Code inputs -->
+        <div class="code-inputs">
+          <ion-input
+            *ngFor="let _ of code; let i = index; trackBy: trackByIndex"
+            [id]="'code-' + i"
+            type="tel"
+            maxlength="1"
+            class="code-digit"
+            [class.filled]="code[i]"
+            [(ngModel)]="code[i]"
+            (ionInput)="onCodeInput(i, $event)"
+            (keydown)="onKeyDown(i, $event)"
+            [disabled]="isLoading"
+            [autofocus]="i === 0"
+            inputmode="numeric"
+          ></ion-input>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+          <ion-icon name="alert-circle" size="small"></ion-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+
+        <ion-button
+          expand="block"
+          class="verify-button"
+          (click)="verify()"
+          [disabled]="isLoading"
+        >
+          <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
+          {{ isLoading ? 'Verificando...' : 'Verificar' }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="resend-section">
+      <p class="telegram-info">
+        <ion-icon name="paper-plane" size="small"></ion-icon>
+        Código enviado por Telegram
+      </p>
+      <ion-button
+        fill="clear"
+        size="small"
+        (click)="resendCode()"
+        [disabled]="resendCooldown > 0 || isLoading"
+      >
+        {{ resendCooldown > 0 ? 'Reenviar en ' + resendCooldown + 's' : 'Reenviar código' }}
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,254 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard/credits/{{ creditId }}"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Realizar Pago</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p class="text-secondary">Cargando opciones de pago...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage && !isProcessing" class="error-state">
+    <ion-icon name="cloud-offline-outline" size="large" class="text-muted"></ion-icon>
+    <p class="text-secondary">{{ errorMessage }}</p>
+    <ion-button fill="clear" (click)="loadData()">Reintentar</ion-button>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!isLoading && credit" class="pay-container animate-fadeIn">
+
+    <!-- Credit Info Banner -->
+    <div class="credit-banner">
+      <div class="banner-left">
+        <ion-icon name="card-outline" class="banner-icon"></ion-icon>
+        <div>
+          <div class="banner-code">{{ credit.code }}</div>
+          <div class="banner-status">
+            <ion-badge [color]="getStatusColor(credit.status)" size="small">{{ credit.status }}</ion-badge>
+          </div>
+        </div>
+      </div>
+      <div class="banner-amount">
+        <span class="banner-label">Pendiente</span>
+        <span class="banner-value">{{ formatCurrency(credit.totalPending) }}</span>
+      </div>
+    </div>
+
+    <!-- Payment Mode Selection -->
+    <div class="section">
+      <h3 class="section-title">Opción de pago</h3>
+
+      <!-- Option: Pending installments -->
+      <div
+        *ngIf="options?.pendingPayment"
+        class="pay-option"
+        [class.selected]="selectedMode === 'pending'"
+        (click)="selectMode('pending')"
+      >
+        <div class="option-left">
+          <div class="option-icon danger">
+            <ion-icon name="warning-outline"></ion-icon>
+          </div>
+          <div class="option-info">
+            <span class="option-title">Cuotas Pendientes / Vencidas</span>
+            <span class="option-desc">{{ options?.pendingPayment?.installmentsCount }} cuota(s) por pagar</span>
+          </div>
+        </div>
+        <div class="option-amount danger">
+          {{ formatCurrency(options?.pendingPayment?.totalAmount || 0) }}
+        </div>
+      </div>
+
+      <!-- Option: Current Period -->
+      <div
+        *ngIf="options?.currentPeriod"
+        class="pay-option"
+        [class.selected]="selectedMode === 'period'"
+        (click)="selectMode('period')"
+      >
+        <div class="option-left">
+          <div class="option-icon success" [class.early]="hasEarlyPaymentDiscount">
+            <ion-icon [name]="hasEarlyPaymentDiscount ? 'flash-outline' : 'calendar-outline'"></ion-icon>
+          </div>
+          <div class="option-info">
+            <span class="option-title">Periodo Actual</span>
+            <span class="option-desc" *ngIf="!hasEarlyPaymentDiscount">Periodo #{{ periodInfo?.periodNumber }}</span>
+            <span class="option-desc early-text" *ngIf="hasEarlyPaymentDiscount">
+              🔥 Pago Anticipado — Ahorras {{ formatCurrency(interestSaved) }}
+            </span>
+          </div>
+        </div>
+        <div class="option-amount">
+          {{ formatCurrency(hasEarlyPaymentDiscount ? (periodInfo?.earlyAmount || 0) : (periodInfo?.normalAmount || 0)) }}
+        </div>
+      </div>
+
+      <!-- Option: Liquidation -->
+      <div
+        *ngIf="options?.liquidation"
+        class="pay-option"
+        [class.selected]="selectedMode === 'liquidation'"
+        (click)="selectMode('liquidation')"
+      >
+        <div class="option-left">
+          <div class="option-icon primary">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+          </div>
+          <div class="option-info">
+            <span class="option-title">Liquidación Total</span>
+            <span class="option-desc" *ngIf="options?.liquidation?.remainingInstallments">
+              {{ options?.liquidation?.remainingInstallments }} cuota(s) restantes
+            </span>
+            <span class="option-desc savings-text" *ngIf="options?.liquidation?.interestSaved">
+              Ahorras {{ formatCurrency(options?.liquidation?.interestSaved) }} en intereses
+            </span>
+          </div>
+        </div>
+        <div class="option-amount primary">
+          {{ formatCurrency(options?.liquidation?.totalAmount || 0) }}
+        </div>
+      </div>
+
+      <!-- No options -->
+      <div *ngIf="!options?.pendingPayment && !options?.currentPeriod && !options?.liquidation" class="no-options">
+        <ion-icon name="checkmark-circle" color="success" size="large"></ion-icon>
+        <h3>No hay pagos pendientes</h3>
+        <p class="text-secondary">Tu crédito está al día</p>
+      </div>
+    </div>
+
+    <!-- Payment Summary & Form (only when mode selected) -->
+    <div *ngIf="selectedMode" class="section payment-form animate-fadeIn">
+
+      <!-- Summary breakdown for period mode -->
+      <div *ngIf="selectedMode === 'period' && periodInfo" class="summary-card">
+        <div class="summary-row">
+          <span>Período</span>
+          <span>#{{ periodInfo.periodNumber }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Monto normal</span>
+          <span class="line-through" *ngIf="hasEarlyPaymentDiscount">{{ formatCurrency(periodInfo.normalAmount) }}</span>
+          <span *ngIf="!hasEarlyPaymentDiscount">{{ formatCurrency(periodInfo.normalAmount) }}</span>
+        </div>
+        <div *ngIf="hasEarlyPaymentDiscount" class="summary-row early-row">
+          <span>🔥 Pago Anticipado</span>
+          <span class="text-accent">{{ formatCurrency(periodInfo.earlyAmount) }}</span>
+        </div>
+        <div *ngIf="periodInfo.interestSaved > 0" class="summary-row savings-row">
+          <span>Ahorro en intereses</span>
+          <span class="text-accent">- {{ formatCurrency(periodInfo.interestSaved) }}</span>
+        </div>
+      </div>
+
+      <!-- Summary for pending -->
+      <div *ngIf="selectedMode === 'pending' && options?.pendingPayment" class="summary-card">
+        <div class="summary-row">
+          <span>Cuotas a pagar</span>
+          <span>{{ options?.pendingPayment?.installmentsCount }}</span>
+        </div>
+        <div class="summary-row">
+          <span>{{ options?.pendingPayment?.description }}</span>
+          <span class="text-danger">{{ formatCurrency(options?.pendingPayment?.totalAmount || 0) }}</span>
+        </div>
+      </div>
+
+      <!-- Summary for liquidation -->
+      <div *ngIf="selectedMode === 'liquidation' && options?.liquidation" class="summary-card">
+        <div class="summary-row">
+          <span>Cuotas restantes</span>
+          <span>{{ options?.liquidation?.remainingInstallments }}</span>
+        </div>
+        <div *ngIf="options?.liquidation?.interestSaved" class="summary-row savings-row">
+          <span>Ahorro en intereses</span>
+          <span class="text-accent">- {{ formatCurrency(options?.liquidation?.interestSaved || 0) }}</span>
+        </div>
+      </div>
+
+      <!-- Total -->
+      <div class="total-row">
+        <span>Total a Pagar</span>
+        <span class="total-amount">{{ formatCurrency(amountToPay) }}</span>
+      </div>
+
+      <!-- Form fields -->
+      <div class="form-group">
+        <ion-label class="form-label">Monto personalizado (opcional)</ion-label>
+        <ion-input
+          type="number"
+          placeholder="Dejar vacío para el monto completo"
+          [(ngModel)]="customAmount"
+          [disabled]="isProcessing"
+          fill="outline"
+          class="custom-input"
+        ></ion-input>
+        <p class="form-hint">Si ingresas un monto menor, se aplicará como abono parcial</p>
+      </div>
+
+      <div class="form-group">
+        <ion-label class="form-label">Método de pago</ion-label>
+        <ion-select
+          [(ngModel)]="paymentMethod"
+          [disabled]="isProcessing"
+          interface="action-sheet"
+          class="custom-select"
+        >
+          <ion-select-option value="efectivo">Efectivo</ion-select-option>
+          <ion-select-option value="transferencia">Transferencia Bancaria</ion-select-option>
+          <ion-select-option value="tarjeta">Tarjeta de Crédito/Débito</ion-select-option>
+          <ion-select-option value="nequi">Nequi</ion-select-option>
+          <ion-select-option value="daviplata">Daviplata</ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="form-group">
+        <ion-label class="form-label">Referencia (opcional)</ion-label>
+        <ion-input
+          type="text"
+          placeholder="Número de transacción, recibo, etc."
+          [(ngModel)]="reference"
+          [disabled]="isProcessing"
+          fill="outline"
+          class="custom-input"
+        ></ion-input>
+      </div>
+
+      <!-- Error message -->
+      <div *ngIf="errorMessage" class="error-box">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <!-- Submit button -->
+      <ion-button
+        expand="block"
+        class="submit-btn"
+        [class.confirming]="isConfirming"
+        [disabled]="isProcessing"
+        (click)="submit()"
+      >
+        <ion-spinner *ngIf="isProcessing" slot="start" name="crescent"></ion-spinner>
+        <span *ngIf="isProcessing">Procesando...</span>
+        <span *ngIf="!isProcessing && !isConfirming">Confirmar Pago {{ formatCurrency(amountToPay) }}</span>
+        <span *ngIf="!isProcessing && isConfirming">⚠️ Clic de nuevo para confirmar</span>
+      </ion-button>
+
+      <!-- Progress bar when confirming -->
+      <div *ngIf="isConfirming" class="confirm-bar"></div>
+    </div>
+
+    <!-- No options fallback -->
+    <div *ngIf="!selectedMode && !options?.pendingPayment && !options?.currentPeriod && !options?.liquidation" class="no-options-block">
+      <ion-button expand="block" fill="outline" routerLink="/tabs/dashboard">
+        Volver al inicio
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

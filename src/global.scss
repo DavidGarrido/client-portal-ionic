@@ -1,0 +1,336 @@
+/*
+ * App Global CSS — CrediFácil Design System
+ * Based on the original frontend (Tailwind + Matoxi theme)
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/* Light palette defined in variables.scss */
+
+/* =============================================
+   BASE STYLES
+   ============================================= */
+html,
+body {
+  background-color: var(--c-bg-deep, #f8fafc);
+  color: var(--c-text, #0f172a);
+  font-family: 'Noto Sans', 'Figtree', system-ui, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* =============================================
+   SCROLLBAR
+   ============================================= */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-hover, #014155);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c-surface, #013040);
+}
+
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease;
+}
+
+/* =============================================
+   IONIC COMPONENT TWEAKS
+   ============================================= */
+
+/* ---- Cards: clean light style ---- */
+ion-card {
+  border-radius: 0.75rem;
+  border: 1px solid var(--c-border, rgba(0, 0, 0, 0.08));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  margin: 12px 16px;
+}
+
+ion-card-content {
+  padding: 16px;
+}
+
+ion-card-header {
+  padding: 14px 16px 0;
+}
+
+ion-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--c-text, rgba(255, 255, 255, 0.92));
+}
+
+/* ---- Items: no extra borders ---- */
+ion-item {
+  --border-width: 0;
+  --inner-border-width: 0;
+  --border-radius: 0;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --min-height: 44px;
+}
+
+/* ---- List: transparent ---- */
+ion-list {
+  background: transparent;
+}
+
+/* ---- Input: match matoxi ---- */
+ion-input,
+ion-textarea,
+ion-select {
+  --background: var(--c-surface, #013040) !important;
+  --color: var(--c-text, rgba(255, 255, 255, 0.92));
+  --placeholder-color: var(--c-text-mut, rgba(255, 255, 255, 0.38));
+  --border-radius: 0.75rem;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  font-size: 15px;
+  border-radius: 0.75rem;
+}
+
+ion-input.input-has-focus,
+ion-textarea.has-focus {
+  --border-color: var(--c-accent, #4bbb8d);
+  box-shadow: 0 0 0 3px rgba(75, 187, 141, 0.18);
+}
+
+/* ---- Button: primary matches .btn-accent ---- */
+ion-button {
+  --border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 14px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  min-height: 48px;
+  letter-spacing: 0.3px;
+}
+
+ion-button.button-solid {
+  --box-shadow: 0 4px 16px rgba(75, 187, 141, 0.30);
+}
+
+ion-button.button-outline {
+  --border-color: rgba(0, 0, 0, 0.18);
+  --color: var(--c-text-sec, #475569);
+}
+
+ion-button.button-clear {
+  --color: var(--c-text-sec, #475569);
+}
+
+/* ---- Badge: soft style like .badge-accent ---- */
+ion-badge {
+  --padding-top: 3px;
+  --padding-bottom: 3px;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  font-size: 11.5px;
+  font-weight: 500;
+  border-radius: 4px;
+  letter-spacing: 0.2px;
+}
+
+ion-badge.badge-success {
+  --background: rgba(75, 187, 141, 0.12);
+  --color: #3da87c;
+}
+
+ion-badge.badge-warning {
+  --background: rgba(255, 193, 7, 0.15);
+  --color: #d99a00;
+}
+
+ion-badge.badge-danger {
+  --background: rgba(252, 24, 90, 0.12);
+  --color: #e0154f;
+}
+
+ion-badge.badge-medium {
+  --background: rgba(0, 0, 0, 0.06);
+  --color: var(--c-text-sec, #475569);
+}
+
+/* ---- Toolbar: cleaner ---- */
+ion-toolbar {
+  --border-width: 0;
+  --min-height: 52px;
+}
+
+ion-title {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+/* ---- Tab bar ---- */
+ion-tab-bar {
+  --border: 1px solid rgba(0, 0, 0, 0.06);
+  height: 60px;
+  padding: 4px 0;
+}
+
+ion-tab-button {
+  font-size: 11px;
+  font-weight: 500;
+  --color: var(--c-text-mut, rgba(255, 255, 255, 0.38));
+  --color-selected: var(--c-accent, #4bbb8d);
+  --padding-bottom: 4px;
+}
+
+ion-tab-button ion-icon {
+  font-size: 22px;
+}
+
+/* ---- Progress bar ---- */
+ion-progress-bar {
+  --background: rgba(0, 0, 0, 0.08);
+  --progress-background: var(--c-accent, #4bbb8d);
+  height: 6px;
+  border-radius: 3px;
+}
+
+/* ---- Back button ---- */
+ion-back-button {
+  --color: var(--c-accent, #4bbb8d);
+  --icon-font-size: 22px;
+}
+
+/* ---- Alert / Modal ---- */
+ion-alert {
+  --background: #ffffff;
+  --backdrop-opacity: 0.48;
+}
+
+/* ---- Skeleton text ---- */
+ion-skeleton-text {
+  --background: rgba(0, 0, 0, 0.08);
+  --background-rgb: 0, 0, 0;
+}
+
+/* ---- Chip ---- */
+ion-chip {
+  --background: var(--c-surface, #f1f5f9);
+  --color: var(--c-text-sec, #475569);
+  --border-color: var(--c-border, rgba(0, 0, 0, 0.10));
+  font-size: 13px;
+  border-radius: 16px;
+  height: 32px;
+}
+
+ion-chip.ion-color-primary {
+  --background: rgba(75, 187, 141, 0.15);
+  --color: #4bbb8d;
+}
+
+/* ---- Segment ---- */
+ion-segment {
+  --background: var(--c-surface, #f1f5f9);
+  border-radius: 10px;
+}
+
+ion-segment-button {
+  --color: var(--c-text-sec, #475569);
+  --color-checked: var(--c-accent, #4bbb8d);
+  --indicator-color: rgba(75, 187, 141, 0.15);
+  font-size: 13px;
+  font-weight: 500;
+  min-height: 36px;
+}
+
+/* =============================================
+   UTILITY CLASSES (from frontend)
+   ============================================= */
+.text-accent {
+  color: var(--c-accent, #4bbb8d);
+}
+.text-danger {
+  color: var(--c-danger, #fc185a);
+}
+.text-warning {
+  color: var(--c-warning, #ffc107);
+}
+.text-muted {
+  color: var(--c-text-mut, #94a3b8);
+}
+.text-secondary {
+  color: var(--c-text-sec, #475569);
+}
+.text-label {
+  color: var(--c-text-lbl, #64748b);
+}
+
+.bg-deep {
+  background-color: var(--c-bg-deep, #011e28);
+}
+.bg-surface {
+  background-color: var(--c-surface, #013040);
+}
+.bg-hover {
+  background-color: var(--c-hover, #014155);
+}
+
+.border-subtle {
+  border: 1px solid var(--c-border, rgba(255, 255, 255, 0.12));
+}
+.border-strong {
+  border: 1px solid var(--c-border-s, rgba(255, 255, 255, 0.20));
+}
+
+.rounded-card {
+  border-radius: 0.75rem;
+}
+.rounded-pill {
+  border-radius: 50rem;
+}
+
+.shadow-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}

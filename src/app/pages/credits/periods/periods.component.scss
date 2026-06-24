@@ -1,0 +1,62 @@
+.loading-state, .error-state {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; height: 60vh; gap: 12px; color: #64748B;
+}
+
+.periods-summary {
+  display: flex; gap: 12px; padding: 16px; flex-wrap: wrap;
+}
+
+.summary-chip {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; color: #475569; background: #F1F5F9;
+  padding: 6px 12px; border-radius: 20px;
+}
+
+.chip-dot {
+  width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+}
+
+.periods-list {
+  background: transparent;
+}
+
+.period-item {
+  --background: white;
+  margin: 0 16px 8px;
+  border-radius: 10px;
+  --border-radius: 10px;
+  --inner-border-width: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.period-item.paid {
+  opacity: 0.8;
+}
+
+.period-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 4px;
+}
+
+.period-number {
+  font-weight: 600; font-size: 15px; color: #1E293B;
+}
+
+.period-details {
+  display: flex; gap: 16px; font-size: 13px; color: #64748B;
+  margin-top: 2px;
+}
+
+.text-success { color: #16A34A; }
+.text-danger { color: #DC2626; }
+
+.empty-item {
+  --background: transparent;
+  --min-height: 120px;
+  color: #94A3B8;
+}
+
+ion-list {
+  padding-bottom: 32px;
+}

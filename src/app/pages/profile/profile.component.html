@@ -1,0 +1,61 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mi Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="profile-container">
+    <!-- Avatar -->
+    <div class="avatar-section">
+      <div class="avatar">
+        <span>{{ (client?.full_name || '?')[0] | uppercase }}</span>
+      </div>
+      <h2>{{ client?.full_name }}</h2>
+    </div>
+
+    <!-- Info card -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Información personal</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item>
+            <ion-label>
+              <span class="info-label">Documento</span>
+              <p class="info-value">{{ client?.identification || '-' }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <span class="info-label">Teléfono</span>
+              <p class="info-value">{{ client?.phone || '-' }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <span class="info-label">Email</span>
+              <p class="info-value">{{ client?.email || '-' }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item *ngIf="client?.created_at">
+            <ion-label>
+              <span class="info-label">Cliente desde</span>
+              <p class="info-value">{{ formatDate(client!.created_at) }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Logout -->
+    <ion-button expand="block" color="danger" fill="outline" class="logout-btn" (click)="logout()">
+      <ion-icon slot="start" name="log-out-outline"></ion-icon>
+      Cerrar sesión
+    </ion-button>
+  </div>
+</ion-content>

@@ -1,0 +1,74 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>Movimientos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p class="text-secondary">Cargando movimientos...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage" class="error-state">
+    <ion-icon name="cloud-offline-outline" size="large" class="text-muted"></ion-icon>
+    <p class="text-secondary">{{ errorMessage }}</p>
+    <ion-button fill="clear" (click)="loadTransactions()">Reintentar</ion-button>
+  </div>
+
+  <!-- Transaction groups -->
+  <div *ngIf="!isLoading && !errorMessage" class="txns-container">
+    <div *ngFor="let group of groups; trackBy: trackByGroup" class="commerce-group animate-fadeIn">
+      <!-- Commerce header -->
+      <div class="commerce-header">
+        <div class="commerce-info">
+          <ion-icon name="storefront-outline" class="commerce-icon"></ion-icon>
+          <span class="commerce-name">{{ group.commerceName }}</span>
+        </div>
+        <div class="commerce-total-wrap">
+          <span class="commerce-total-label">Total</span>
+          <span class="commerce-total">{{ formatAmount(group.total) }}</span>
+        </div>
+      </div>
+
+      <!-- Transaction list -->
+      <ion-list lines="none" class="txn-list">
+        <ion-item
+          *ngFor="let txn of group.transactions; let i = index; let last = last"
+          class="txn-item"
+          [class.txn-last]="last"
+        >
+          <div slot="start" class="txn-icon-wrap" [class.is-payment]="txn.type === 'payment'">
+            <ion-icon [name]="getTypeIcon(txn.type)"></ion-icon>
+          </div>
+          <ion-label>
+            <div class="txn-top">
+              <span class="txn-type">{{ txn.description || txn.type }}</span>
+              <ion-badge [color]="getStatusColor(txn.status)" size="small">
+                {{ getStatusLabel(txn.status) }}
+              </ion-badge>
+            </div>
+            <div class="txn-bottom">
+              <span class="txn-date">{{ txn.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+              <span class="txn-amount" [class.is-payment]="txn.type === 'payment'">
+                {{ formatAmount(txn.amount) }}
+              </span>
+            </div>
+            <div class="txn-meta" *ngIf="txn.reference">
+              <span class="txn-ref">Ref: {{ txn.reference }}</span>
+            </div>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="groups.length === 0" class="empty-state">
+      <ion-icon name="receipt-outline" size="large" class="text-muted"></ion-icon>
+      <h3 class="text-secondary">No hay movimientos</h3>
+      <p class="text-muted">Tus transacciones aparecerán aquí</p>
+    </div>
+  </div>
+</ion-content>

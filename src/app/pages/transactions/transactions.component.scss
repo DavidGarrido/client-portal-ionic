@@ -1,0 +1,30 @@
+.loading-state,.error-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:12px}
+.txns-container{padding:8px 0 24px}
+.commerce-group{margin-bottom:16px}
+.commerce-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--c-surface,#013040);border-bottom:1px solid var(--c-border,rgba(255,255,255,.12))}
+.commerce-info{display:flex;align-items:center;gap:10px}
+.commerce-icon{font-size:20px;color:var(--c-accent,#4bbb8d)}
+.commerce-name{font-weight:600;font-size:15px;color:var(--c-text,rgba(255,255,255,.92))}
+.commerce-total-wrap{text-align:right}
+.commerce-total-label{display:block;font-size:11px;color:var(--c-text-mut,rgba(255,255,255,.38));text-transform:uppercase;letter-spacing:.5px}
+.commerce-total{font-weight:700;font-size:15px;color:var(--c-accent,#4bbb8d)}
+.txn-list{background:transparent;padding:0 12px}
+.txn-item{--background:var(--c-bg,#012935);--inner-border-width:0;--padding-start:8px;--padding-end:4px;--min-height:68px;--border-color:var(--c-border,rgba(255,255,255,.08));border-bottom:1px solid var(--c-border,rgba(255,255,255,.06))}
+.txn-item.txn-last{border-bottom:none}
+.txn-icon-wrap{width:40px;height:40px;border-radius:10px;background:rgba(75,187,141,.12);display:flex;align-items:center;justify-content:center;margin-right:8px}
+.txn-icon-wrap ion-icon{font-size:20px;color:var(--c-accent,#4bbb8d)}
+.txn-icon-wrap.is-payment{background:rgba(252,24,90,.12)}
+.txn-icon-wrap.is-payment ion-icon{color:var(--c-danger,#fc185a)}
+.txn-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.txn-type{font-weight:500;font-size:14px;color:var(--c-text,rgba(255,255,255,.92))}
+.txn-bottom{display:flex;justify-content:space-between;align-items:center}
+.txn-date{font-size:12px;color:var(--c-text-mut,rgba(255,255,255,.38))}
+.txn-amount{font-weight:700;font-size:14px;color:var(--c-accent,#4bbb8d)}
+.txn-amount.is-payment{color:var(--c-danger,#fc185a)}
+.txn-meta{margin-top:2px}
+.txn-ref{font-size:11px;color:var(--c-text-mut,rgba(255,255,255,.38))}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:80px 16px}
+.empty-state ion-icon{font-size:56px;margin-bottom:8px}
+.empty-state h3{margin:0;font-size:18px;font-weight:600}
+.empty-state p{margin:0;font-size:14px}
+ion-badge{font-size:10.5px;padding:2px 6px}
