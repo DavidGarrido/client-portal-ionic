@@ -71,16 +71,44 @@
           <ion-col size="6">
             <ion-card class="summary-card">
               <ion-card-content>
-                <span class="label">Cuota mensual</span>
-                <span class="value primary">{{ result.summary.monthlyPayment | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+                <span class="label">Valor del crédito</span>
+                <span class="value">{{ result.summary.purchaseAmount | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
               </ion-card-content>
             </ion-card>
           </ion-col>
           <ion-col size="6">
             <ion-card class="summary-card">
               <ion-card-content>
+                <span class="label">Seguro total</span>
+                <span class="value primary">{{ result.summary.totalInsurance | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-card class="summary-card">
+              <ion-card-content>
+                <span class="label">Interés total</span>
+                <span class="value warning">{{ result.summary.totalInterest | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+          <ion-col size="6">
+            <ion-card class="summary-card">
+              <ion-card-content>
+                <span class="label">Cuota mensual</span>
+                <span class="value primary" style="font-size:1.4rem">{{ result.summary.monthlyPayment | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            <ion-card class="summary-card total-card">
+              <ion-card-content>
                 <span class="label">Total a pagar</span>
-                <span class="value">{{ result.summary.grandTotal | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+                <span class="value total-value">{{ result.summary.grandTotal | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
               </ion-card-content>
             </ion-card>
           </ion-col>
