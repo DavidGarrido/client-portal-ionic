@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { StorageService } from './storage';
 
@@ -10,11 +11,12 @@ import { StorageService } from './storage';
 })
 export class ApiService {
   private baseUrl = environment.tenantApiUrl;
+  private router = inject(Router);
 
   constructor(
     private http: HttpClient,
     private storage: StorageService
-  ) {}
+) {}
 
   getToken(): string | null {
     return this.storage.getToken();
@@ -29,6 +31,23 @@ export class ApiService {
     return headers;
   }
 
+  /** Si el error es por token inválido/expirado, redirige al login y lanza un error silencioso */
+  private handleAuthError(error: any): void {
+    const status = error?.status;
+    const msg = error?.error?.message || error?.message || '';
+    const isAuthError =
+      status === 401 ||
+      msg.toLowerCase().includes('token inválido') ||
+      msg.toLowerCase().includes('token invalido') ||
+      msg.toLowerCase().includes('unauthenticated') ||
+      msg.toLowerCase().includes('no autenticado');
+
+    if (isAuthError) {
+      this.storage.clear();
+      this.router.navigate(['/auth/login']);
+    }
+  }
+
   get<T>(endpoint: string): Observable<T> {
     return this.http
       .get<ApiWrapper<T>>(`${this.baseUrl}${endpoint}`, { headers: this.headers() })
@@ -36,6 +55,7 @@ export class ApiService {
         map((res) => this.unwrap<T>(res)),
         catchError((error) => {
           console.error(`API GET error [${endpoint}]:`, error);
+          this.handleAuthError(error);
           return throwError(() => error);
         })
       );
@@ -48,6 +68,7 @@ export class ApiService {
         map((res) => this.unwrap<T>(res)),
         catchError((error) => {
           console.error(`API POST error [${endpoint}]:`, error);
+          this.handleAuthError(error);
           return throwError(() => error);
         })
       );
