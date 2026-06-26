@@ -28,6 +28,7 @@
             [class.filled]="code[i]"
             [(ngModel)]="code[i]"
             (ionInput)="onCodeInput(i, $event)"
+            (keyup)="onCodeInput(i, $event)"
             (keydown)="onKeyDown(i, $event)"
             [disabled]="isLoading"
             [autofocus]="i === 0"

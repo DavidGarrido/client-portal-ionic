@@ -69,12 +69,24 @@ export class VerifyComponent implements OnInit, OnDestroy {
   onCodeInput(index: number, event: any) {
     const value = event.detail?.value ?? event.target?.value ?? '';
     if (value && index < 5) {
-      const nextInput = document.querySelector(`#code-${index + 1}`) as HTMLInputElement;
-      nextInput?.focus();
+      const nextWrapper = document.querySelector(`#code-${index + 1}`);
+      // IonInput wraps the native input; we need to focus the inner native <input>
+      const nextNative = nextWrapper?.querySelector('input.native-input') as HTMLInputElement;
+      if (nextNative) {
+        nextNative.focus();
+      } else {
+        // Fallback: focus the wrapper directly
+        (nextWrapper as HTMLInputElement)?.focus();
+      }
     }
     if (index === 5 && value) {
       setTimeout(() => this.verify(), 100);
     }
+  }
+
+  onIonInput(index: number, event: any) {
+    // Also handle ion-input event for mobile keyboards
+    this.onCodeInput(index, event);
   }
 
   onKeyDown(index: number, event: KeyboardEvent) {
