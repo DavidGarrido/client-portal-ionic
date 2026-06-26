@@ -67,22 +67,22 @@ export interface AmortizationData {
 }
 
 export interface AmortizationSummary {
-  total_principal: number;
-  total_interest: number;
-  total_insurance: number;
-  total_payable: number;
+  totalPrincipal: number;
+  totalInterest: number;
+  totalInsurance: number;
+  totalPayable: number;
 }
 
 export interface AmortizationRow {
   number: number;
-  due_date: string;
+  dueDate: string;
   principal: number;
   interest: number;
   insurance: number;
   total: number;
-  balance: number;
+  finalBalance: number;
   status: string;
-  paid_date: string | null;
+  paidDate: string | null;
 }
 
 // ---------------------------------------------------------------------------

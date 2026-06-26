@@ -28,21 +28,21 @@
         <div class="totals-row">
           <div class="total-item">
             <span class="total-label">Capital total</span>
-            <span class="total-value">{{ data.summary.total_principal | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+            <span class="total-value">{{ data.summary.totalPrincipal | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
           </div>
           <div class="total-item">
             <span class="total-label">Intereses totales</span>
-            <span class="total-value">{{ data.summary.total_interest | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+            <span class="total-value">{{ data.summary.totalInterest | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
           </div>
         </div>
         <div class="totals-row">
           <div class="total-item">
             <span class="total-label">Seguro total</span>
-            <span class="total-value">{{ data.summary.total_insurance | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+            <span class="total-value">{{ data.summary.totalInsurance | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
           </div>
           <div class="total-item">
             <span class="total-label">Total a pagar</span>
-            <span class="total-value primary">{{ data.summary.total_payable | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+            <span class="total-value primary">{{ data.summary.totalPayable | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
           </div>
         </div>
       </ion-card-content>
@@ -82,12 +82,12 @@
         <tbody>
           <tr *ngFor="let inst of filteredInstallments; trackBy: trackByInstallment">
             <td>{{ inst.number }}</td>
-            <td>{{ inst.due_date | date:'dd/MM/yyyy' }}</td>
+            <td>{{ inst.dueDate | date:'dd/MM/yyyy' }}</td>
             <td>{{ inst.principal | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
             <td>{{ inst.interest | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
             <td>{{ inst.insurance | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
             <td>{{ inst.total | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
-            <td>{{ inst.balance | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+            <td>{{ inst.finalBalance | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
             <td>
               <ion-badge [color]="getStatusColor(inst.status)" size="small">
                 {{ getStatusLabel(inst.status) }}

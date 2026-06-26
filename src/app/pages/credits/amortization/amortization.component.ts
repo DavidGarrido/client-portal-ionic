@@ -44,19 +44,24 @@ export class AmortizationComponent implements OnInit {
   get filteredInstallments() {
     if (!this.data?.installments) return [];
     if (this.filterStatus === 'all') return this.data.installments;
-    return this.data.installments.filter((i) => i.status === this.filterStatus);
+    const statusMap: Record<string, string> = {
+      pending: 'pendiente',
+      paid: 'pagado',
+      overdue: 'vencido',
+    };
+    return this.data.installments.filter((i) => i.status === statusMap[this.filterStatus]);
   }
 
   getStatusColor(status: string): string {
     const colors: Record<string, string> = {
-      paid: 'success', pending: 'warning', overdue: 'danger',
+      pagado: 'success', pendiente: 'warning', vencido: 'danger',
     };
     return colors[status] || 'medium';
   }
 
   getStatusLabel(status: string): string {
     const labels: Record<string, string> = {
-      paid: 'Pagado', pending: 'Pendiente', overdue: 'Vencido',
+      pagado: 'Pagado', pendiente: 'Pendiente', vencido: 'Vencido',
     };
     return labels[status] || status;
   }
