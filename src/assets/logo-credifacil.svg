@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A56DB"/>
+      <stop offset="100%" stop-color="#0D9488"/>
+    </linearGradient>
+  </defs>
+  <!-- Shield icon -->
+  <path d="M20 8L8 13v8c0 7.5 4.5 14.5 12 17 7.5-2.5 12-9.5 12-17v-8l-12-5z" fill="url(#grad)" opacity="0.15"/>
+  <path d="M20 10L10 14v7c0 6.5 4 12.5 10 14.5 6-2 10-8 10-14.5v-7l-10-4z" fill="url(#grad)" opacity="0.3"/>
+  <path d="M20 12l-8 3v6c0 5.5 3.5 10.5 8 12 4.5-1.5 8-6.5 8-12v-6l-8-3z" fill="url(#grad)"/>
+  <path d="M18 20l2-2 2 2-2 2-2-2z" fill="white"/>
+  <path d="M20 20v6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Text -->
+  <text x="44" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="800" fill="#1A56DB">Credi</text>
+  <text x="98" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="800" fill="#0D9488">fácil</text>
+  <text x="44" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748B" letter-spacing="3">T U  C R É D I T O  F Á C I L</text>
+</svg>

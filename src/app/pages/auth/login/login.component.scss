@@ -1,64 +1,211 @@
-.login-container {
-  padding: 32px 16px;
+ion-toolbar {
+  --background: #ffffff;
+  padding: 8px 16px;
+}
+
+.toolbar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+}
+
+.logo-svg {
+  height: 36px;
+  width: auto;
+}
+
+// ----- Hero Section -----
+.hero-section {
+  position: relative;
+  text-align: center;
+  padding: 32px 24px 8px;
+  overflow: hidden;
+}
+
+.hero-graphic {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  height: 100px;
+}
+
+.hero-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E0F2FE 0%, #CCFBF1 100%);
+  position: absolute;
+}
+
+.hero-card-icon {
+  position: relative;
+  z-index: 1;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1A56DB 0%, #0D9488 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(26, 86, 219, 0.25);
+
+  ion-icon {
+    font-size: 28px;
+    color: white;
+  }
+}
+
+.hero-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 6px;
+}
+
+.hero-subtitle {
+  font-size: 15px;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.4;
+}
+
+// ----- Form Section -----
+.form-section {
+  padding: 24px 20px 32px;
   max-width: 400px;
   margin: 0 auto;
 }
 
-.login-header {
-  text-align: center;
-  margin-bottom: 32px;
-
-  h1 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1A56DB;
-    margin: 0 0 8px;
-  }
-
-  p {
-    color: #64748B;
-    margin: 0;
-  }
+.input-group {
+  margin-bottom: 20px;
 }
 
-.ion-item-custom {
-  --padding-start: 0;
-  --inner-padding-end: 0;
-  margin-bottom: 16px;
-}
-
-.login-button {
-  margin-top: 8px;
-  --background: #1A56DB;
+.input-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 13px;
   font-weight: 600;
-  min-height: 48px;
+  color: #334155;
+
+  ion-icon {
+    color: #1A56DB;
+  }
 }
 
+.custom-input {
+  --background: #F8FAFC;
+  --border-color: #E2E8F0;
+  --border-radius: 12px;
+  --border-width: 1.5px;
+  --border-style: solid;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  --highlight-height: 0;
+  --placeholder-color: #94A3B8;
+  --placeholder-opacity: 1;
+  font-size: 16px;
+  font-weight: 500;
+  color: #0F172A;
+  transition: border-color 0.2s;
+
+  &.has-focus {
+    --border-color: #1A56DB;
+    --background: #FFFFFF;
+  }
+}
+
+// ----- Error -----
 .error-message {
   display: flex;
   align-items: center;
   gap: 8px;
   color: #DC2626;
   font-size: 14px;
-  margin-bottom: 12px;
-  padding: 8px 12px;
+  margin-bottom: 16px;
+  padding: 10px 14px;
   background: #FEF2F2;
-  border-radius: 8px;
+  border-radius: 10px;
+  border: 1px solid #FECACA;
 }
 
+// ----- Button -----
+.login-button {
+  --background: linear-gradient(135deg, #1A56DB 0%, #0D9488 100%);
+  --background-activated: linear-gradient(135deg, #1E40AF 0%, #0F766E 100%);
+  --border-radius: 12px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  min-height: 52px;
+  margin-top: 8px;
+  text-transform: none;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 14px rgba(26, 86, 219, 0.3);
+}
+
+// ----- Divider -----
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+
+  span {
+    flex: 1;
+    height: 1px;
+    background: #E2E8F0;
+  }
+}
+
+// ----- Telegram Info -----
 .telegram-info {
   display: flex;
   align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #EFF6FF 0%, #F0FDFA 100%);
+  border-radius: 12px;
+  border: 1px solid #BFDBFE;
+}
+
+.telegram-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1A56DB 0%, #0D9488 100%);
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin-top: 24px;
-  padding: 12px;
-  background: #EFF6FF;
-  border-radius: 8px;
+  flex-shrink: 0;
+
+  ion-icon {
+    font-size: 20px;
+    color: white;
+  }
+}
+
+.telegram-text {
+  flex: 1;
+
+  strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0F172A;
+    margin-bottom: 2px;
+  }
 
   p {
     margin: 0;
-    font-size: 13px;
+    font-size: 12px;
     color: #64748B;
+    line-height: 1.3;
   }
 }

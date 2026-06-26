@@ -1,60 +1,81 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar color="primary">
-    <ion-title>CrediFácil</ion-title>
+  <ion-toolbar color="light">
+    <div class="toolbar-brand">
+      <img src="assets/logo-credifacil.svg" alt="Credifácil" class="logo-svg" />
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="login-container">
-    <div class="login-header">
-      <h1>Bienvenido</h1>
-      <p>Ingresa tus datos para acceder a tus créditos</p>
+  <div class="hero-section">
+    <div class="hero-graphic">
+      <div class="hero-circle"></div>
+      <div class="hero-card-icon">
+        <ion-icon name="card-outline"></ion-icon>
+      </div>
+    </div>
+    <h1 class="hero-title">Hola de nuevo</h1>
+    <p class="hero-subtitle">Ingresa tus datos para acceder a tus créditos</p>
+  </div>
+
+  <div class="form-section">
+    <div class="input-group">
+      <div class="input-label">
+        <ion-icon name="person-outline" size="small"></ion-icon>
+        <span>Número de documento</span>
+      </div>
+      <ion-input
+        type="tel"
+        inputmode="numeric"
+        placeholder="Tu número de cédula"
+        [(ngModel)]="identification"
+        maxlength="15"
+        class="custom-input"
+      ></ion-input>
     </div>
 
-    <ion-card>
-      <ion-card-content>
-        <ion-item lines="none" class="ion-item-custom">
-          <ion-label position="stacked">Número de documento</ion-label>
-          <ion-input
-            type="tel"
-            inputmode="numeric"
-            placeholder="Ej: 1022978178"
-            [(ngModel)]="identification"
-            maxlength="15"
-          ></ion-input>
-        </ion-item>
+    <div class="input-group">
+      <div class="input-label">
+        <ion-icon name="call-outline" size="small"></ion-icon>
+        <span>Número de teléfono</span>
+      </div>
+      <ion-input
+        type="tel"
+        inputmode="numeric"
+        placeholder="Tu número de celular"
+        [(ngModel)]="phone"
+        maxlength="10"
+        class="custom-input"
+      ></ion-input>
+    </div>
 
-        <ion-item lines="none" class="ion-item-custom">
-          <ion-label position="stacked">Número de teléfono</ion-label>
-          <ion-input
-            type="tel"
-            inputmode="numeric"
-            placeholder="Ej: 3205731318"
-            [(ngModel)]="phone"
-            maxlength="10"
-          ></ion-input>
-        </ion-item>
+    <div *ngIf="errorMessage" class="error-message">
+      <ion-icon name="alert-circle" size="small"></ion-icon>
+      <span>{{ errorMessage }}</span>
+    </div>
 
-        <div *ngIf="errorMessage" class="error-message">
-          <ion-icon name="alert-circle" size="small"></ion-icon>
-          <span>{{ errorMessage }}</span>
-        </div>
+    <ion-button
+      expand="block"
+      class="login-button"
+      (click)="login()"
+      [disabled]="isLoading"
+    >
+      <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
+      {{ isLoading ? 'Enviando...' : 'Ingresar' }}
+    </ion-button>
 
-        <ion-button
-          expand="block"
-          class="login-button"
-          (click)="login()"
-          [disabled]="isLoading"
-        >
-          <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
-          {{ isLoading ? 'Enviando...' : 'Ingresar' }}
-        </ion-button>
-      </ion-card-content>
-    </ion-card>
+    <div class="divider">
+      <span></span>
+    </div>
 
     <div class="telegram-info">
-      <ion-icon name="paper-plane" color="primary"></ion-icon>
-      <p>Te enviaremos un código de verificación por Telegram</p>
+      <div class="telegram-icon">
+        <ion-icon name="paper-plane"></ion-icon>
+      </div>
+      <div class="telegram-text">
+        <strong>Verificación por Telegram</strong>
+        <p>Te enviaremos un código seguro a tu Telegram</p>
+      </div>
     </div>
   </div>
 </ion-content>
