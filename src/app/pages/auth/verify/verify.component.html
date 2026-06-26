@@ -31,20 +31,22 @@
           [class.filled]="code[i] !== ''"
           [class.focused]="focusedIndex === i"
         >
-          <ion-input
+          <input
             [id]="'code-' + i"
-            type="tel"
+            type="text"
+            inputmode="numeric"
             maxlength="1"
+            pattern="[0-9]"
             class="code-digit"
             [(ngModel)]="code[i]"
-            (ionInput)="onCodeInput(i, $event)"
-            (keyup)="onCodeInput(i, $event)"
+            (input)="onCodeInput(i, $event)"
             (keydown)="onKeyDown(i, $event)"
-            (ionFocus)="focusedIndex = i"
-            (ionBlur)="focusedIndex = -1"
+            (focus)="focusedIndex = i"
+            (blur)="focusedIndex = -1"
             [disabled]="isLoading"
-            inputmode="numeric"
-          ></ion-input>
+            [attr.autocomplete]="i === 0 ? 'one-time-code' : 'off'"
+            aria-label="Digit {{ i + 1 }} of 6"
+          />
         </div>
       </div>
 
