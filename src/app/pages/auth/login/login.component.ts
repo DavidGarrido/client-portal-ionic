@@ -10,8 +10,8 @@ import { AuthService } from '../../../services/auth';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  identification = '1022978178';
-  phone = '3205731318';
+  identification = '';
+  phone = '';
   isLoading = false;
   errorMessage = '';
 
