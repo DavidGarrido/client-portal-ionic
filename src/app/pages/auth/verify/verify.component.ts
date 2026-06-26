@@ -16,6 +16,7 @@ export class VerifyComponent implements OnInit, OnDestroy {
   isLoading = false;
   errorMessage = '';
   resendCooldown = 60;
+  focusedIndex = -1;
   private cooldownInterval: any;
 
   constructor(
@@ -48,15 +49,6 @@ export class VerifyComponent implements OnInit, OnDestroy {
         return;
       }
 
-      // Auto-fill code from debug_code stored by login component
-      const debugCode = localStorage.getItem('credifacil_debug_code');
-      if (debugCode && debugCode.length === 6) {
-        this.code = debugCode.split('');
-        console.log('[VERIFY] Auto-filled debug code');
-        // Auto-submit after a brief moment (for testing)
-        setTimeout(() => this.verify(), 500);
-      }
-
       this.startResendCooldown();
       this.focusFirstInput();
     });
@@ -82,11 +74,6 @@ export class VerifyComponent implements OnInit, OnDestroy {
     if (index === 5 && value) {
       setTimeout(() => this.verify(), 100);
     }
-  }
-
-  onIonInput(index: number, event: any) {
-    // Also handle ion-input event for mobile keyboards
-    this.onCodeInput(index, event);
   }
 
   onKeyDown(index: number, event: KeyboardEvent) {
@@ -164,6 +151,5 @@ export class VerifyComponent implements OnInit, OnDestroy {
   private clearStoredData() {
     localStorage.removeItem('credifacil_verify_client_id');
     localStorage.removeItem('credifacil_verify_identification');
-    localStorage.removeItem('credifacil_debug_code');
   }
 }

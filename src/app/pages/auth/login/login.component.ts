@@ -42,16 +42,9 @@ export class LoginComponent {
 
       if (res.success && res.data?.client_id) {
         const clientId = res.data.client_id;
-        const debugCode = res.data.debug_code || '';
-
         // Save to localStorage as safety net
         localStorage.setItem('credifacil_verify_client_id', String(clientId));
         localStorage.setItem('credifacil_verify_identification', this.identification.trim());
-
-        if (debugCode) {
-          // Save debug code for auto-fill on verify page
-          localStorage.setItem('credifacil_debug_code', debugCode);
-        }
 
         console.log('[LOGIN] Navigating to verify with client_id:', clientId);
         this.router.navigate(['/auth/verify'], {
