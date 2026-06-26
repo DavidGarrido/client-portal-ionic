@@ -1,0 +1,30 @@
+{
+  "name": "Credifácil",
+  "short_name": "Credifácil",
+  "description": "Portal de pagos y consulta de créditos",
+  "theme_color": "#1976d2",
+  "background_color": "#f5f5f5",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "scope": "/",
+  "start_url": "/",
+  "orientation": "portrait",
+  "lang": "es-CO",
+  "categories": ["finance", "business"],
+  "icons": [
+    {
+      "src": "assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}
